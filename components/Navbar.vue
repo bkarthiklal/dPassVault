@@ -21,7 +21,7 @@
             <v-icon small class="mr-1">lock</v-icon>
             <span class="font-weight-light">Passwords</span>
           </v-btn>
-          <v-btn :disabled="!userSignedIn" to="/Notes" text>
+          <v-btn :disabled="!userSignedIn" to="/Notes" text class="d-none">
             <v-icon small class="mr-1">notes</v-icon>
             <span class="font-weight-light">Notes</span>
           </v-btn>
