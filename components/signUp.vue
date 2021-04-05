@@ -46,8 +46,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="closeSignUpDialog">Close</v-btn>
-          <v-btn color="primary" :disabled="isDisabled" flat @click="register"
+          <v-btn color="primary" text @click="closeSignUpDialog">Close</v-btn>
+          <v-btn color="primary" :disabled="isDisabled" text @click="register"
             >Sign Up</v-btn
           >
         </v-card-actions>

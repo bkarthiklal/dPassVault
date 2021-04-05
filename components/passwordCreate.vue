@@ -8,11 +8,11 @@
       top
     >
       {{ snackbarMessage }}
-      <v-btn color="primary" flat @click="snackbar = false">Close</v-btn>
+      <v-btn color="primary" text @click="snackbar = false">Close</v-btn>
     </v-snackbar>
     <v-snackbar v-else v-model="snackbar" :timeout="timeout" bottom>
       {{ snackbarMessage }}
-      <v-btn color="primary" flat @click="snackbar = false">Close</v-btn>
+      <v-btn color="primary" text @click="snackbar = false">Close</v-btn>
     </v-snackbar>
     <v-layout row justify-center>
       <v-dialog v-model="dialogControl" persistent max-width="600px">
@@ -65,7 +65,7 @@
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-btn class="primary" flat round @click="generate"
+                  <v-btn class="primary" text rounded @click="generate"
                     >Generate</v-btn
                   >
                 </v-flex>
@@ -75,10 +75,10 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" flat @click="dialogToggle">Close</v-btn>
+            <v-btn color="primary" text @click="dialogToggle">Close</v-btn>
             <v-btn
               color="primary"
-              flat
+              text
               :disabled="isDisabled"
               @click="addPassword"
               >Add</v-btn

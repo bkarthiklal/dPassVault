@@ -15,8 +15,8 @@
           <v-btn
             class="font-weight-light"
             color="grey"
-            flat
-            round
+            text
+            rounded
             @click="passwordDialog = true"
           >
             <span>add password</span>
@@ -25,11 +25,11 @@
         </v-flex>
 
         <v-flex>
-          <v-toolbar dense flat class="tools password-counter">
+          <v-toolbar dense text class="tools password-counter">
             <v-toolbar-title class="tb-text subheading"
               >favorites</v-toolbar-title
             >
-            <v-btn flat round @click="filterFavorites()">
+            <v-btn text rounded @click="filterFavorites()">
               <v-icon color="pink">favorite</v-icon>
               <span class="pink--text">{{ favoriteCount }}</span>
             </v-btn>
@@ -109,7 +109,7 @@
               >
                 <v-flex xs12 sm3>
                   <v-btn
-                    flat
+                    text
                     icon
                     :color="password.favorite"
                     @click="isFavorite(password.id, password.favorite)"
@@ -131,7 +131,7 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-btn
-                    flat
+                    text
                     color="grey"
                     @click="
                       edit(password.id, password.website, password.password)
@@ -142,7 +142,7 @@
                   </v-btn>
                   <v-spacer></v-spacer>
                   <v-btn
-                    flat
+                    text
                     color="grey"
                     @click="getPassword(password.website, password.password)"
                   >
@@ -178,11 +178,11 @@
             <v-card-actions>
               <v-spacer></v-spacer>
 
-              <v-btn color="primary" flat="flat" @click="doCopy">
+              <v-btn color="primary" text="text" @click="doCopy">
                 <span>Copy</span>
               </v-btn>
 
-              <v-btn color="primary" flat="flat" @click="dialog = false">
+              <v-btn color="primary" text="text" @click="dialog = false">
                 <span>Close</span>
               </v-btn>
             </v-card-actions>

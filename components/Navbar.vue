@@ -1,27 +1,27 @@
 <template>
   <div>
     <nav>
-      <v-toolbar id="nav" flat app>
-        <v-toolbar-side-icon
+      <v-toolbar id="nav" text>
+        <v-app-bar-nav-icon
           :disabled="userSignedIn === false"
           :color="navColor"
           @click="drawer = !drawer"
-        ></v-toolbar-side-icon>
+        ></v-app-bar-nav-icon>
         <v-toolbar-title class="pl-5">
           THE
           <span class="vault">VAULT</span>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items v-if="pageWidth">
-          <v-btn to="/" flat>
+          <v-btn to="/" text>
             <v-icon small class="mr-1">home</v-icon>
             <span class="font-weight-light">Home</span>
           </v-btn>
-          <v-btn :disabled="!userSignedIn" to="/Passwords" flat>
+          <v-btn :disabled="!userSignedIn" to="/Passwords" text>
             <v-icon small class="mr-1">lock</v-icon>
             <span class="font-weight-light">Passwords</span>
           </v-btn>
-          <v-btn :disabled="!userSignedIn" to="/Notes" flat>
+          <v-btn :disabled="!userSignedIn" to="/Notes" text>
             <v-icon small class="mr-1">notes</v-icon>
             <span class="font-weight-light">Notes</span>
           </v-btn>
@@ -37,38 +37,38 @@
             <p class="name white--text subheading mt-3">{{ userName }}</p>
           </v-flex>
           <v-flex v-if="!userSignedIn">
-            <v-btn flat round @click="opened">
+            <v-btn text rounded @click="opened">
               <span>Sign Up</span>
             </v-btn>
           </v-flex>
           <v-flex v-else>
-            <v-btn flat round @click="signOut">
+            <v-btn text rounded @click="signOut">
               <span>Sign Out</span>
             </v-btn>
           </v-flex>
         </v-layout>
 
         <v-list>
-          <v-list-tile
+          <v-list-item
             v-for="page in pages"
             :key="page.title"
             router
             :to="page.link"
           >
-            <v-list-tile-action>
+            <v-list-item-action>
               <v-icon>{{ page.icon }}</v-icon>
-            </v-list-tile-action>
+            </v-list-item-action>
 
-            <v-list-tile-content>
-              <v-list-tile-title>{{ page.title }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+            <v-list-item-content>
+              <v-list-item-title>{{ page.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
 
         <v-divider></v-divider>
 
         <v-layout column align-center>
-          <v-btn class="my-4" flat round @click="dialog = true"
+          <v-btn class="my-4" text rounded @click="dialog = true"
             >Account details</v-btn
           >
         </v-layout>
@@ -83,45 +83,45 @@
             >
 
             <v-list>
-              <v-list-tile>
-                <v-list-tile-content>
-                  <v-list-tile-title>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
                     Name:
                     <span class="ml-2">{{ userName }}</span>
-                  </v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-              <v-list-tile>
-                <v-list-tile-content>
-                  <v-list-tile-title>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
                     Email:
                     <span class="ml-2">{{ email }}</span>
-                  </v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-              <v-list-tile>
-                <v-list-tile-content>
-                  <v-list-tile-title>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
                     Passwords Saved:
                     <span class="ml-2">{{ totalPasswords }}</span>
-                  </v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-              <v-list-tile>
-                <v-list-tile-content>
-                  <v-list-tile-title>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
                     Notes Saved:
                     <span class="ml-2">{{ totalNotes }}</span>
-                  </v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
             </v-list>
             <v-card-actions justify-center>
               <v-spacer></v-spacer>
               <v-btn
                 color="red white--text"
                 class="mb-3"
-                round
+                rounded
                 :disabled="testAccountLock"
                 @click="deleteAccount"
                 >Delete Account</v-btn
@@ -135,7 +135,7 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" flat @click="dialog = false">Close</v-btn>
+              <v-btn color="primary" text @click="dialog = false">Close</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -180,7 +180,8 @@ export default {
       return window.innerWidth > 800 ? 'black--text' : 'white--text'
     },
     testAccountLock() {
-      if (this.$fire.auth.currentUser.uid === this.testAccount) {
+      const uid = ((this.$fire.auth || {}).currentUser || {}).uid || null
+      if (uid === this.testAccount) {
         return true
       } else {
         return false

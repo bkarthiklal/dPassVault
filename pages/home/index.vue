@@ -8,11 +8,11 @@
       top
     >
       {{ snackbarMessage }}
-      <v-btn color="primary" flat @click="snackbar = false">Close</v-btn>
+      <v-btn color="primary" text @click="snackbar = false">Close</v-btn>
     </v-snackbar>
     <v-snackbar v-else v-model="snackbar" :timeout="timeout" bottom>
       {{ snackbarMessage }}
-      <v-btn color="primary" flat @click="snackbar = false">Close</v-btn>
+      <v-btn color="primary" text @click="snackbar = false">Close</v-btn>
     </v-snackbar>
     <signUp
       ref="signUpBlock"
@@ -41,7 +41,7 @@
               @click:append="show = !show"
             ></v-text-field>
           </form>
-          <v-btn flat round class="my-3 secondary" large @click="signIn"
+          <v-btn text rounded class="my-3 secondary" large @click="signIn"
             >Login</v-btn
           >
           <h3>
@@ -56,7 +56,7 @@
           </v-avatar>
 
           <h1 class="my-4">Welcome Back {{ userName }}</h1>
-          <v-btn flat round class="my-3 secondary" large @click="signOut"
+          <v-btn text rounded class="my-3 secondary" large @click="signOut"
             >Sign Out</v-btn
           >
         </v-flex>
@@ -80,8 +80,8 @@
 
           <v-btn
             :disabled="!userSignedIn"
-            flat
-            round
+            text
+            rounded
             class="my-3 primary"
             large
             @click="createPassword"
