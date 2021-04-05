@@ -91,8 +91,6 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import db from './firebaseInit'
 export default {
   components: {},
   props: ['passwordDialog', 'changePassword'],
@@ -181,7 +179,7 @@ export default {
   watch: {},
 
   created() {
-    firebase.auth().onAuthStateChanged((user) => {
+    this.$fire.auth().onAuthStateChanged((user) => {
       if (user) {
         this.userId = user.uid
         this.userSignedIn = true
@@ -216,7 +214,8 @@ export default {
     addPassword() {
       if (this.userSignedIn) {
         if (this.changePassword) {
-          db.collection('users')
+          this.$fire.firestore
+            .collection('users')
             .doc(this.userId)
             .collection('passwords')
             .doc(this.id)
@@ -232,7 +231,8 @@ export default {
               this.snackbarMessage = 'Password Updated!'
             })
         } else {
-          db.collection('users')
+          this.$fire.firestore
+            .collection('users')
             .doc(this.userId)
             .collection('passwords')
             .add({
@@ -259,7 +259,8 @@ export default {
     deletePassword() {
       if (this.userSignedIn) {
         if (confirm('Are You Sure?')) {
-          db.collection('users')
+          this.$fire.firestore
+            .collection('users')
             .doc(this.userId)
             .collection('passwords')
             .doc(this.id)
@@ -275,13 +276,15 @@ export default {
 
     changeFavorite(id, favoriteColor) {
       if (favoriteColor === 'pink') {
-        db.collection('users')
+        this.$fire.firestore
+          .collection('users')
           .doc(this.userId)
           .collection('passwords')
           .doc(id)
           .update({ favorite: 'grey' })
       } else {
-        db.collection('users')
+        this.$fire.firestore
+          .collection('users')
           .doc(this.userId)
           .collection('passwords')
           .doc(id)
@@ -291,5 +294,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

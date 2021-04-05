@@ -94,7 +94,6 @@
 
 <script>
 import signUp from '@/components/signUp.vue'
-import firebase from 'firebase'
 export default {
   components: {
     signUp,
@@ -141,7 +140,7 @@ export default {
   },
   created() {
     this.$emit('changePage', 1)
-    firebase.auth().onAuthStateChanged((user) => {
+    this.$fire.auth().onAuthStateChanged((user) => {
       if (user) {
         this.userSignedIn = true
 
@@ -168,7 +167,7 @@ export default {
       this.signUpDialog = false
     },
     signIn() {
-      firebase
+      this.$fire
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .catch((error) => {
@@ -179,7 +178,7 @@ export default {
         })
     },
     signOut() {
-      firebase
+      this.$fire
         .auth()
         .signOut()
         .then(() => {

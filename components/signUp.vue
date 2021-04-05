@@ -57,8 +57,6 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import db from '@/components/firebaseInit'
 export default {
   props: ['signUpDialog'],
   data() {
@@ -132,7 +130,7 @@ export default {
     register(e) {
       e.preventDefault()
 
-      firebase
+      this.$fire
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
         .then((user) => {
@@ -142,8 +140,8 @@ export default {
                 this.username.charAt(0).toUpperCase() + this.username.slice(1),
             })
             .then(() => {
-              const user = firebase.auth().currentUser
-              db.collection('users').doc(user.uid).set({
+              const user = this.$fire.auth().currentUser
+              this.$fire.firestore.collection('users').doc(user.uid).set({
                 id: user.uid,
                 name: user.displayName,
                 email: user.email,

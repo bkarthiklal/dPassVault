@@ -195,8 +195,6 @@
 <script>
 import { setTimeout } from 'timers'
 import PasswordCreator from '@/components/passwordCreate.vue'
-import db from '@/components/firebaseInit'
-import firebase from 'firebase'
 export default {
   components: {
     PasswordCreator,
@@ -258,8 +256,9 @@ export default {
   updated() {},
   created() {
     this.$emit('changePage', 2)
-    const user = firebase.auth().currentUser
-    db.collection('users')
+    const user = this.$fire.auth().currentUser
+    this.$fire.firestore
+      .collection('users')
       .doc(user.uid)
       .collection('passwords')
       .onSnapshot((res) => {
@@ -320,8 +319,9 @@ export default {
       this.$refs.edit.changeFavorite(favoriteID, favoriteColor)
     },
     filterButtons(num) {
-      const user = firebase.auth().currentUser
-      db.collection('users')
+      const user = this.$fire.auth().currentUser
+      this.$fire.firestore
+        .collection('users')
         .doc(user.uid)
         .collection('passwords')
         .onSnapshot((data) => {

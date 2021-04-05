@@ -145,8 +145,6 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import db from './firebaseInit'
 export default {
   components: {},
   props: ['Name'],
@@ -182,7 +180,7 @@ export default {
       return window.innerWidth > 800 ? 'black--text' : 'white--text'
     },
     testAccountLock() {
-      if (firebase.auth().currentUser.uid == this.testAccount) {
+      if (this.$fire.auth().currentUser.uid == this.testAccount) {
         return true
       } else {
         return false
@@ -190,7 +188,7 @@ export default {
     },
   },
   created() {
-    firebase.auth().onAuthStateChanged((user) => {
+    this.$fire.auth().onAuthStateChanged((user) => {
       if (user) {
         this.userSignedIn = true
 
@@ -201,14 +199,16 @@ export default {
         if (this.userName === '') {
           this.userName = user.displayName
         }
-        db.collection('users')
+        this.$fire.firestore
+          .collection('users')
           .doc(user.uid)
           .collection('passwords')
           .onSnapshot((res) => {
             this.totalPasswords = res.docs.length
           })
 
-        db.collection('users')
+        this.$fire.firestore
+          .collection('users')
           .doc(user.uid)
           .collection('notes')
           .onSnapshot((res) => {
@@ -235,7 +235,7 @@ export default {
       this.drawer = false
     },
     signOut() {
-      firebase
+      this.$fire
         .auth()
         .signOut()
         .then(() => {
@@ -245,7 +245,7 @@ export default {
     },
     deleteAccount() {
       if (confirm('Are You Sure?')) {
-        const user = firebase.auth().currentUser
+        const user = this.$fire.auth().currentUser
 
         user
           .delete()
