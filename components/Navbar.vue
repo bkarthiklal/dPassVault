@@ -153,7 +153,7 @@ export default {
       pages: [
         { title: 'Home', icon: 'home', link: '/' },
         { title: 'Passwords', icon: 'lock', link: '/Passwords' },
-        { title: 'Notes', icon: 'note', link: '/Notes' },
+        // { title: 'Notes', icon: 'note', link: '/Notes' },
       ],
       drawer: false,
       userName: '',

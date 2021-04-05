@@ -1,23 +1,10 @@
 <template>
   <v-app>
-    <div
-      id="background"
-      class="background-img"
-      :style="{
-        backgroundColor: this.color,
-        transform: this.skew,
-        width: this.width,
-        marginLeft: this.margin,
-      }"
-    ></div>
+    <div id="background" :style="styleObject"></div>
     <Navbar :name="Name" />
 
     <v-main class="background-img">
       <transition name="page-animate">
-        <!-- <router-view
-          @updateUser="updateUser"
-          @changePage="updatePage($event)"
-        ></router-view> -->
         <nuxt />
       </transition>
     </v-main>
@@ -44,37 +31,57 @@ export default {
     }
   },
 
-  created() {},
-
-  methods: {
-    updatePage(page) {
-      if (window.innerWidth <= 1024) {
-        if (page === 1) {
-          this.color = 'rgba(255, 255, 255, 0.725)'
-          this.skew = 'skewX(30deg)'
-          this.width = '0%'
-          this.margin = '0'
+  computed: {
+    styleObject() {
+      const homeMobileStyle = [
+        'rgba(255, 255, 255, 0.725)',
+        'skewX(30deg)',
+        '0%',
+        '0',
+      ]
+      const homeWebStyle = [
+        'rgba(255, 255, 255, 0.725)',
+        'skewX(30deg)',
+        '70%',
+        '-300px',
+      ]
+      const passwordtyle = [
+        'rgba(255, 255, 255, 0.725)',
+        'skewX(0)',
+        '100%',
+        '0',
+      ]
+      const createNotesStyle = [...passwordtyle]
+      const pageName = this.$route.name
+      const generateStyle = (styleArray) => {
+        const [color, skew, width, margin] = styleArray
+        return {
+          backgroundColor: color,
+          transform: skew,
+          width,
+          marginLeft: margin,
         }
-      } else if (page === 1) {
-        this.color = 'rgba(255, 255, 255, 0.725)'
-        this.skew = 'skewX(30deg)'
-        this.width = '70%'
-        this.margin = '-300px'
       }
-
-      if (page === 2) {
-        this.color = 'rgba(255, 255, 255, 0.725)'
-        this.skew = 'skewX(0)'
-        this.width = '100%'
-        this.margin = '0'
-      }
-      if (page === 3) {
-        this.color = 'rgba(255, 255, 255, 0.725)'
-        this.skew = 'skewX(0)'
-        this.width = '100%'
-        this.margin = '0'
+      switch (pageName) {
+        case 'home':
+          if (window.innerWidth <= 1024) {
+            return generateStyle(homeMobileStyle)
+          }
+          return generateStyle(homeWebStyle)
+        case 'passwords':
+          return generateStyle(passwordtyle)
+        case 'notes':
+          return generateStyle(createNotesStyle)
+        default:
+          if (window.innerWidth <= 1024) {
+            return generateStyle(homeMobileStyle)
+          }
+          return generateStyle(homeWebStyle)
       }
     },
+  },
+
+  methods: {
     updateUser(name) {
       this.Name = name.charAt(0).toUpperCase() + name.slice(1)
     },
@@ -95,8 +102,7 @@ html {
   overflow: hidden;
 }
 .background-img {
-  /* background: url('/bg.jpg'); */
-  background: url('https://images.unsplash.com/photo-1508615070457-7baeba4003ab?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80');
+  background: url('../assets/bg.jpg');
   background-size: cover;
 }
 
