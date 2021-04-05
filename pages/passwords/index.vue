@@ -5,6 +5,7 @@
       :change-password="editOpen"
       :password-dialog="passwordDialog"
       @dialogToggle="closeDialog()"
+      @passwordDialogUpdated="dialogControl"
     />
     <h1 v-if="pageWidth" class="subheading grey--text">VAULT</h1>
 
@@ -271,7 +272,7 @@ export default {
               id: change.doc.id,
             })
           } else if (change.type === 'modified') {
-            this.passwords.map((password) => {
+            this.passwords.forEach((password) => {
               if (password.id === change.doc.id) {
                 password.website = change.doc.data().website
                 password.password = change.doc.data().password
@@ -281,7 +282,7 @@ export default {
             })
           } else if (change.type === 'removed') {
             const removedPassword = this.passwords.filter(
-              (password) => password.id != change.doc.id
+              (password) => password.id !== change.doc.id
             )
 
             this.passwords = removedPassword
@@ -325,11 +326,11 @@ export default {
         .doc(user.uid)
         .collection('passwords')
         .onSnapshot((data) => {
-          if (num == 1) {
+          if (num === 1) {
             this.isIcon = true
             this.passwords.forEach((password) => {
               password.show = true
-              if (password.favorite != 'pink') {
+              if (password.favorite !== 'pink') {
                 password.show = false
               }
             })
@@ -337,40 +338,40 @@ export default {
             this.iconColor = 'pink'
             this.fabColor = '#fff'
           }
-          if (num == 2) {
+          if (num === 2) {
             this.isIcon = false
             this.passwords.forEach((password) => {
               password.show = true
-              if (password.strength != 'strong') {
+              if (password.strength !== 'strong') {
                 password.show = false
               }
             })
             this.strength = this.strong
             this.fabColor = 'green'
           }
-          if (num == 3) {
+          if (num === 3) {
             this.isIcon = false
             this.passwords.forEach((password) => {
               password.show = true
-              if (password.strength != 'medium') {
+              if (password.strength !== 'medium') {
                 password.show = false
               }
             })
             this.strength = this.medium
             this.fabColor = 'orange'
           }
-          if (num == 4) {
+          if (num === 4) {
             this.isIcon = false
             this.passwords.forEach((password) => {
               password.show = true
-              if (password.strength != 'weak') {
+              if (password.strength !== 'weak') {
                 password.show = false
               }
             })
             this.strength = this.weak
             this.fabColor = 'red'
           }
-          if (num == 5) {
+          if (num === 5) {
             this.isIcon = false
             this.passwords.forEach((password) => {
               password.show = true
@@ -379,6 +380,9 @@ export default {
             this.fabColor = '#627E8F'
           }
         })
+    },
+    dialogControl(value) {
+      this.passwordDialog = value
     },
   },
 }

@@ -15,7 +15,7 @@
       <v-btn color="primary" flat @click="snackbar = false">Close</v-btn>
     </v-snackbar>
     <v-layout row justify-center>
-      <v-dialog v-model="passwordDialog" persistent max-width="600px">
+      <v-dialog v-model="dialogControl" persistent max-width="600px">
         <v-card>
           <v-card-title>
             <span class="headline">Add Password</span>
@@ -58,7 +58,7 @@
                     v-model="password"
                     label="Password"
                     :type="show ? 'text' : 'password'"
-                    :error-messages="noSpaces"
+                    :error-messages="hasSpace"
                     :append-icon="show ? 'visibility' : 'visibility_off'"
                     required
                     @click:append="show = !show"
@@ -101,12 +101,12 @@ export default {
       show: false,
       value: 0,
       id: '',
-      spaces: false,
       userId: '',
       userSignedIn: false,
       snackbar: false,
       snackbarMessage: '',
       timeout: 3000,
+      dialogControl: false,
     }
   },
 
@@ -159,7 +159,7 @@ export default {
       }
     },
     isDisabled() {
-      if (this.spaces) {
+      if (this.hasSpace) {
         return true
       }
       if (this.password.length > 3 && this.website.length > 2) {
@@ -168,15 +168,26 @@ export default {
         return true
       }
     },
-    noSpaces() {
+    hasSpace() {
+      // eslint-disable-next-line prefer-regex-literals
       const reg = new RegExp(/ /)
-      this.spaces = reg.test(this.password)
-      if (this.spaces) {
+      const spacesCheck = reg.test(this.password)
+      if (spacesCheck) {
         return 'No spaces allowed!'
+      }
+      return ''
+    },
+  },
+  watch: {
+    passwordDialog(value) {
+      this.dialogControl = value
+    },
+    dialogControl(value) {
+      if (this.passwordDialog !== value) {
+        this.$emit('passwordDialogUpdated', value)
       }
     },
   },
-  watch: {},
 
   created() {
     this.$fire.auth().onAuthStateChanged((user) => {
@@ -197,17 +208,15 @@ export default {
     },
     generate() {
       let password = ''
-      let character
-
-      for (let i = 0; i < 20; i++) {
-        !password.includes(
-          (character = String.fromCharCode(
-            Math.floor(Math.random() * 94) + 33
-          )),
-          Math.floor(password.length / 94) * 94
-        )
-        password += character
+      const generateRandChar = () => {
+        return String.fromCharCode(Math.floor(Math.random() * 94) + 33)
       }
+      do {
+        const character = generateRandChar()
+        if (!password.includes(character)) {
+          password += character
+        }
+      } while (password.length < 20)
       this.password = password
     },
 
