@@ -32,7 +32,7 @@
         <v-layout column align-center>
           <v-flex class="mt-5">
             <v-avatar size="120">
-              <img class="avatar" :src="avatar + id" />
+              <img class="avatar" :src="avatar" />
             </v-avatar>
             <p class="name white--text subheading mt-3">{{ userName }}</p>
           </v-flex>
@@ -165,7 +165,7 @@ export default {
       totalPasswords: '',
       totalNotes: '',
       id: '',
-      avatar: 'https://api.adorable.io/avatars/167/',
+      avatar: 'https://picsum.photos/200/',
       testAccount: '08dUCWSZ2aX809dc3yB91vwXTDh1',
     }
   },

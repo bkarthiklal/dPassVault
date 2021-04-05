@@ -107,7 +107,7 @@ export default {
       show: false,
       userSignedIn: false,
       userName: '',
-      avatar: `https://api.adorable.io/avatars/167/`,
+      avatar: `https://picsum.photos/200/`,
       id: '',
       snackbar: false,
       snackbarMessage: '',
@@ -193,7 +193,7 @@ export default {
       this.$emit('updateUser', name)
     },
     createPassword() {
-      this.$router.push('/Passwords')
+      this.$router.push('/passwords')
     },
   },
 }

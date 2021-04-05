@@ -119,7 +119,7 @@
                 </v-flex>
                 <v-responsive class="pt-4">
                   <v-avatar :class="`${password.strength}`" size="100">
-                    <img src="/lock-default.png" />
+                    <img src="~/assets/lock-default.png" />
                   </v-avatar>
                 </v-responsive>
                 <v-card-text>
@@ -384,6 +384,7 @@ export default {
     dialogControl(value) {
       this.passwordDialog = value
     },
+    filterFavorites() {},
   },
 }
 </script>
