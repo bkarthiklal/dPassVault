@@ -15,6 +15,7 @@
       <v-btn color="primary" flat @click="snackbar = false">Close</v-btn>
     </v-snackbar>
     <signUp
+      ref="signUpBlock"
       :sign-up-dialog="signUpDialog"
       @updateUser="updateUser"
       @closeSignUpDialog="closeSignUpDialog()"
@@ -119,7 +120,9 @@ export default {
       return window.innerWidth > 1024
     },
     emailErrors() {
+      // eslint-disable-next-line prefer-regex-literals
       const regex = new RegExp(/@/)
+      // eslint-disable-next-line prefer-regex-literals
       const dotCom = new RegExp(/[.]/)
       if (this.email.length > 0) {
         if (
@@ -140,7 +143,7 @@ export default {
   },
   created() {
     this.$emit('changePage', 1)
-    this.$fire.auth().onAuthStateChanged((user) => {
+    this.$fire.auth.onAuthStateChanged((user) => {
       if (user) {
         this.userSignedIn = true
 
@@ -156,35 +159,34 @@ export default {
   mounted() {
     this.$root.$on('openUp', () => {
       this.signUpDialog = true
+      this.$refs.signUpBlock.dialogControl = this.signUpDialog
     })
   },
 
   methods: {
     openSignUp() {
       this.signUpDialog = true
+      this.$refs.signUpBlock.dialogControl = this.signUpDialog
     },
     closeSignUpDialog() {
       this.signUpDialog = false
+      this.$refs.signUpBlock.dialogControl = this.signUpDialog
     },
     signIn() {
-      this.$fire
-        .auth()
+      this.$fire.auth
         .signInWithEmailAndPassword(this.email, this.password)
         .catch((error) => {
           const errorCode = error.code
-          const errorMessage = error.message
+          // const errorMessage = error.message
           this.snackbar = true
           this.snackbarMessage = 'user not found! ' + errorCode
         })
     },
     signOut() {
-      this.$fire
-        .auth()
-        .signOut()
-        .then(() => {
-          this.userSignedIn = false
-          window.location.reload(true)
-        })
+      this.$fire.auth.signOut().then(() => {
+        this.userSignedIn = false
+        window.location.reload(true)
+      })
     },
     updateUser(name) {
       this.userName = name.charAt(0).toUpperCase() + name.slice(1)

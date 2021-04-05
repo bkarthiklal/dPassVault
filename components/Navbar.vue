@@ -180,7 +180,7 @@ export default {
       return window.innerWidth > 800 ? 'black--text' : 'white--text'
     },
     testAccountLock() {
-      if (this.$fire.auth().currentUser.uid == this.testAccount) {
+      if (this.$fire.auth.currentUser.uid === this.testAccount) {
         return true
       } else {
         return false
@@ -188,7 +188,7 @@ export default {
     },
   },
   created() {
-    this.$fire.auth().onAuthStateChanged((user) => {
+    this.$fire.auth.onAuthStateChanged((user) => {
       if (user) {
         this.userSignedIn = true
 
@@ -235,17 +235,14 @@ export default {
       this.drawer = false
     },
     signOut() {
-      this.$fire
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.push('/')
-          window.location.reload(true)
-        })
+      this.$fire.auth.signOut().then(() => {
+        this.$router.push('/')
+        window.location.reload(true)
+      })
     },
     deleteAccount() {
       if (confirm('Are You Sure?')) {
-        const user = this.$fire.auth().currentUser
+        const user = this.$fire.auth.currentUser
 
         user
           .delete()

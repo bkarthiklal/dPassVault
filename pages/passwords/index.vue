@@ -257,7 +257,7 @@ export default {
   updated() {},
   created() {
     this.$emit('changePage', 2)
-    const user = this.$fire.auth().currentUser
+    const user = this.$fire.auth.currentUser
     this.$fire.firestore
       .collection('users')
       .doc(user.uid)
@@ -320,7 +320,7 @@ export default {
       this.$refs.edit.changeFavorite(favoriteID, favoriteColor)
     },
     filterButtons(num) {
-      const user = this.$fire.auth().currentUser
+      const user = this.$fire.auth.currentUser
       this.$fire.firestore
         .collection('users')
         .doc(user.uid)

@@ -1,6 +1,6 @@
 <template>
   <v-layout row justify-center>
-    <v-dialog v-model="signUpDialog" persistent max-width="600px">
+    <v-dialog v-model="dialogControl" persistent max-width="600px">
       <v-card>
         <v-card-title>
           <span class="headline">Sign Up</span>
@@ -66,6 +66,7 @@ export default {
       email: '',
       password: '',
       accounts: [],
+      dialogControl: false,
     }
   },
   computed: {
@@ -76,7 +77,9 @@ export default {
       return ''
     },
     emailErrors() {
+      // eslint-disable-next-line prefer-regex-literals
       const regex = new RegExp(/@/)
+      // eslint-disable-next-line prefer-regex-literals
       const dotCom = new RegExp(/[.]/)
       if (this.email.length > 0) {
         if (
@@ -122,6 +125,14 @@ export default {
       }
     },
   },
+  watch: {
+    dialogControl(value) {
+      this.$parent.signUpDialog = value
+    },
+    signUpDialog(value) {
+      this.dialogControl = value
+    },
+  },
   methods: {
     closeSignUpDialog() {
       this.$emit('closeSignUpDialog')
@@ -130,8 +141,7 @@ export default {
     register(e) {
       e.preventDefault()
 
-      this.$fire
-        .auth()
+      this.$fire.auth
         .createUserWithEmailAndPassword(this.email, this.password)
         .then((user) => {
           user.user
@@ -140,7 +150,7 @@ export default {
                 this.username.charAt(0).toUpperCase() + this.username.slice(1),
             })
             .then(() => {
-              const user = this.$fire.auth().currentUser
+              const user = this.$fire.auth.currentUser
               this.$fire.firestore.collection('users').doc(user.uid).set({
                 id: user.uid,
                 name: user.displayName,

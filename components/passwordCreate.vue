@@ -190,7 +190,7 @@ export default {
   },
 
   created() {
-    this.$fire.auth().onAuthStateChanged((user) => {
+    this.$fire.auth.onAuthStateChanged((user) => {
       if (user) {
         this.userId = user.uid
         this.userSignedIn = true
